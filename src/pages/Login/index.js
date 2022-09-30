@@ -8,8 +8,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useTogglePasswordVisibility} from './useTogglePasswordVisibility';
 import background from '../../assets/images/login-bg.png';
 import simaster from '../../assets/images/logo-simaster.png';
 
@@ -17,13 +19,13 @@ export default class Login extends Component {
   render() {
     return (
       <View style={this.styles.container}>
-        <this.loginView />
-        <this.loginUser />
+        <this._loginView />
+        <this._loginUser />
       </View>
     );
   }
 
-  loginView = () => {
+  _loginView = () => {
     return (
       <View style={this.styles.overlay}>
         <View style={this.styles.backgroundContainer}>
@@ -39,7 +41,9 @@ export default class Login extends Component {
     );
   };
 
-  loginUser = () => {
+  _loginUser = () => {
+    const {passwordVisibility, rightIcon, handlePasswordVisibility} =
+      useTogglePasswordVisibility();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -60,18 +64,27 @@ export default class Login extends Component {
               name="password"
               placeholder="Password"
               autoCapitalize="none"
-              secureTextEntry={true}
+              secureTextEntry={passwordVisibility}
               value={password}
               enablesReturnKeyAutomatically
               onChangeText={text => setPassword(text)}
             />
+            <Pressable onPress={handlePasswordVisibility}>
+              <MaterialCommunityIcons
+                name={rightIcon}
+                size={22}
+                color="#232323"
+              />
+            </Pressable>
           </View>
 
           <TouchableOpacity style={this.styles.forgetButton}>
             <Text>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={this.styles.loginButton}>
+          <TouchableOpacity
+            style={this.styles.loginButton}
+            onPress={() => this.props.navigation.navigate('Home')}>
             <Text style={{fontWeight: 'bold'}}>LOGIN</Text>
           </TouchableOpacity>
         </View>
@@ -112,6 +125,10 @@ export default class Login extends Component {
       borderBottomWidth: 1,
       width: '70%',
       height: 50,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
     inputContainer: {
       flex: 1,
