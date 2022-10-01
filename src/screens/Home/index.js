@@ -4,7 +4,7 @@ import {View, StyleSheet, Dimensions, Text} from 'react-native';
 
 export default class Home extends Component {
   render() {
-    return <this._hello />;
+    return <Text>Hello</Text>;
   }
 
   _hello = () => {
