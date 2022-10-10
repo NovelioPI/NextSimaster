@@ -14,7 +14,7 @@ const Login = ({navigation}) => {
   const onLoginPressed = () => {
     // Dummy
     if (email === 'novelio.p.i' && password === '123') {
-      navigation.navigate('Home');
+      navigation.navigate('StudyResult');
     } else if (email === '' && password === '') {
       console.warn('Email and password cannot be empty!');
     } else {
