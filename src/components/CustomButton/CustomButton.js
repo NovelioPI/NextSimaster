@@ -23,22 +23,44 @@ const CustomButton = ({onPress, text, type = '1', bgColor, fgColor}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: {},
+  container_1: {
     width: '80%',
     height: 40,
     borderRadius: 20,
-  },
-  container_1: {
+
     alignItems: 'center',
     justifyContent: 'center',
+
     backgroundColor: '#FFC82F',
   },
   container_2: {
+    width: '80%',
+    height: 40,
     alignItems: 'flex-end',
+  },
+  container_3: {
+    width: '90%',
+    height: 150,
+    borderRadius: 10,
+
+    alignItems: 'flex-end',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+
+    backgroundColor: '#FFC82F',
   },
   text: {},
   text_1: {
     fontWeight: 'bold',
+  },
+  text_2: {
+    color: '#FFC82F',
+  },
+  text_3: {
+    fontWeight: 'bold',
+    right: 0,
+    up: 0,
   },
 });
 
