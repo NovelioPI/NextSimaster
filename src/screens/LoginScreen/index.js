@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, Image, ImageBackground} from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
