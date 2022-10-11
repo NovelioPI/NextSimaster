@@ -80,7 +80,6 @@ const StudyResut = ({navigation}) => {
                 <View style={styles.resultValue}>
                     <Text style={styles.markStyle}>{course.mark}</Text>
                     <Text>{course.value}</Text>
-                    <Text>{backgroundColor}</Text>
                 </View>
             </View>
         )   
