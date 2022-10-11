@@ -10,6 +10,7 @@ import Notifications from './src/screens/Notifications';
 import NotificationDetails from './src/screens/NotificationDetails';
 import Requests from './src/screens/Requests';
 import RequestDetails from './src/screens/RequestDetails';
+import ClassDetails from './src/screens/ClassDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
@@ -31,8 +32,8 @@ const App = () => {
           name="StudyResult"
           component={StudyResult}
           options={{headerShown: false}}
-        /> */}
-        {/* <Stack.Screen
+        />
+        <Stack.Screen
           name="Notifications"
           component={Notifications}
           options={{headerShown: false}}
@@ -41,7 +42,7 @@ const App = () => {
           name="NotificationDetails"
           component={NotificationDetails}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen
           name="Requests"
           component={Requests}
@@ -50,6 +51,11 @@ const App = () => {
         <Stack.Screen
           name="RequestDetails"
           component={RequestDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ClassDetails"
+          component={ClassDetails}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
