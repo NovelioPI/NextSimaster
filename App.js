@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
+import { io } from 'socket.io-client';
 import Login from './src/screens/LoginScreen';
 import Home from './src/screens/Home';
 import StudyResult from './src/screens/StudyResult';
@@ -18,11 +18,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name="Home"
           component={Home}

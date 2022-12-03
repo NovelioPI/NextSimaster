@@ -5,32 +5,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import man from '../../../assets/images/man.png';
 
 const ClassDetails = ({route, navigation}) => {
-    const classData = [
-        {
-            name: 'Pemrograman Jaringan dan Piranti Bergerak',
-            day: 'Selasa',
-            time: '13.30-14.30',
-            place: 'Ruang S1 202',
-            lecturers: [
-                {
-                    name: 'Dosen 1',
-                },
-                {
-                    name: 'Dosen 1',
-                },
-            ],
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-        }
-    ]
+    let { course } = route.params;
 
-    const classInfo = classData[0];
-
-    const createLecturersTemplate = (lecturer, index) => {
+    const createLecturersTemplate = (lecturer) => {
         return (
-            <View style={{flex: 1, justifyContent: 'space-between', maxHeight: 200}} key={index}>
+            <View style={{flex: 1, justifyContent: 'space-between', maxHeight: 200}}>
                 <View>
                     <Image source={man} resizeMode='contain' style={{maxWidth: 100, maxHeight: 150, alignSelf: 'center'}} />
-                    <Text style={{marginTop: -10, textAlign: 'center'}}>{lecturer.name}</Text>
+                    <Text style={{marginTop: -10, textAlign: 'center'}}>{lecturer}</Text>
                 </View>
             </View>
         )
@@ -50,17 +32,17 @@ const ClassDetails = ({route, navigation}) => {
                     onPress={onBackPressed}>
                 </Icon>
                 <View style={{padding: 20}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 24}}>{classInfo.name}</Text>
-                    <Text>{classInfo.day}, {classInfo.time} {classInfo.place}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 24}}>{course.name}</Text>
+                    <Text>{course.day}, {course.time} {course.roomId}</Text>
                 </View>
             </View>
             <ScrollView style={{flex: 1, margin: 20}}>
                 <Text style={{fontSize: 22, fontWeight: 'bold'}}>Lecturers</Text>
                 <View style={{flexDirection: 'row'}}>
-                    {classInfo.lecturers.map((lecturer, index) => createLecturersTemplate(lecturer, index))}
+                    {course.Lecturer != null ? createLecturersTemplate(course.Lecturer.name): createLecturersTemplate('anonim')}
                 </View>
                 <Text style={{fontSize: 22, fontWeight: 'bold'}}>Short Description</Text>
-                <Text style={{marginTop: 10}}>{classInfo.description}</Text>
+                <Text style={{marginTop: 10}}>{course.description}</Text>
             </ScrollView>
         </View>
     )

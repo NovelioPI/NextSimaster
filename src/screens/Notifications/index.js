@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, ScrollView, ImageBackground, TouchableOpacity, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BottomSheet from '../../components/BottomSheet';
@@ -7,79 +7,20 @@ import background from'../../../assets/images/background.png';
 const Notifications = ({navigation}) => {
     const [showBottomSheet, setShowBottomSheet] = useState(false);
     const [selectedNotif, setSelectedNotif] = useState(0)
+    const [notifications, setNotifications] = useState([]);
 
-    const notifications = [
-        {
-            code: 'MII213401',
-            name: 'Pembelajaran Mesin Mendalam',
-            class: 'EL A',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 30 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-03-12 16:04:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-        {
-            code: 'MII213432',
-            name: 'Pembelajaran Mesin Mendasar',
-            class: 'EL B',
-            lecturer: 'Dr. Mardhani Riasetiawan, SE Ak, M.T.',
-            title: 'Update untuk Kuliah 34 Agustus 2022',
-            description: 'Informasi pelaksanaan kuliah untuk sesi Selasa 30 Agustus 2022 yang seharusnya dilaksanakan mulai jam 13.30 akan diundurkan karena dosen harus mengikuti monev penelitian, maka akan dilaksanakan di jam 15.15 (setelah ashar) dengan menggunakan link yang telah di bagi-gunakan sebelumnya. Terima kasih',
-            updateTime: '2022-02-12 16:07:55'
-        },
-
-    ];
+    useEffect(() => {
+        fetch('http://192.168.100.15:8000/notification/list')
+            .then(data => data.json())
+            .then((dataJson) => setNotifications(dataJson.data))
+            .catch(e => console.log(e))
+    }, []);
 
     const notificationCardTemplate = (course, index) => {
         return (
             <TouchableOpacity style={styles.notificationCard} key={index} onPress={() => onNotifPressed(course)}>
                 <Text style={{fontWeight: 'bold'}}>
-                    Pengumuman : [{course.code}] {course.name}
+                    Pengumuman : [{course.Course.code}] {course.Course.name}
                 </Text>
                 <Text style={{marginVertical: 10}}>
                     {course.description}

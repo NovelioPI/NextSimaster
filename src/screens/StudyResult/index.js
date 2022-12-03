@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, ScrollView, ImageBackground, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CustomSelectDropdown from '../../components/CustomSelectDropdown';
@@ -8,53 +8,23 @@ import BottomSheet from '../../components/BottomSheet';
 const StudyResut = ({navigation}) => {
     const [selected, setSelected] = useState();
     const [showBottomSheet, setShowBottomSheet] = useState(false)
+    const [dataStudy, setDataStudy] = useState([]);
+
+    useEffect(() => {
+        fetch('http://192.168.100.24:8000/course-result/list')
+            .then(data => data.json())
+            .then((dataJson) => setDataStudy(dataJson.data))
+            .catch(e => console.log(e))
+    }, [])
 
     const dataPeriod = [
         'Semester Gasal 2022/2023',
         'Semester Genap 2022/2023'
     ];
 
-    const dataStudy = [
-        {
-            'name': 'Pemrograman Jaringan dan Piranti Bergerak',
-            'mark'  : 'A',
-            'value' : '4.00',
-            'class' : 'EL A',
-            'credit': 3
-        },
-        {
-            'name': 'Instrumentasi Cerdas',
-            'mark'  : 'B',
-            'value' : '3.25',
-            'class' : 'EL A',
-            'credit': 2
-        },
-        {
-            'name': 'Seminar',
-            'mark'  : 'C',
-            'value' : '2.25',
-            'class' : 'EL A',
-            'credit': 1
-        },
-        {
-            'name': 'Seminar',
-            'mark'  : 'D',
-            'value' : '1.50',
-            'class' : 'EL A',
-            'credit': 1
-        },
-        {
-            'name': 'Seminar',
-            'mark'  : 'E',
-            'value' : '0',
-            'class' : 'EL A',
-            'credit': 1
-        },
-    ];
-
     const kumulatifResult = 4;
 
-    const studyCardTemplate = (course) => {
+    const studyCardTemplate = (course, index) => {
         let backgroundColor = '#c4c4c4';
         if (course.value >= 3.5) 
             backgroundColor = '#53C86B';
@@ -68,13 +38,13 @@ const StudyResut = ({navigation}) => {
             backgroundColor = '#E46050';
 
         return (
-            <View style={{...styles.resultCard, backgroundColor: backgroundColor}}>
+            <View style={{...styles.resultCard, backgroundColor: backgroundColor}} key={index}>
                 <View style={styles.classInfo}>
                     <Text style={{fontWeight: 'bold'}}>
-                        {course.name}
+                        {course.Course.name}
                     </Text>
                     <Text style={{marginTop: 20}}>
-                        Kelas: {course.class}
+                        Kelas: {course.Class.name}
                     </Text>
                 </View>
                 <View style={styles.resultValue}>
@@ -85,15 +55,15 @@ const StudyResut = ({navigation}) => {
         )   
     }
 
-    const studyValuesTemplate = (course) => {
+    const studyValuesTemplate = (course, index) => {
         return (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row'}} key={index}>
                 <View style={styles.classInfo}>
                     <Text style={{fontWeight: 'bold'}}>
-                        {course.name}
+                        {course.Course.name}
                     </Text>
                     <Text style={{marginTop: 10}}>
-                        Jumlah SKS: {course.credit}
+                        Jumlah SKS: {course.Course.credit}
                     </Text>
                 </View>
                 <View style={{
@@ -140,7 +110,7 @@ const StudyResut = ({navigation}) => {
                 style={styles.container}>
                 <CustomSelectDropdown data={dataPeriod} setSelected={setSelected}/>
                 <ScrollView style={{marginVertical: 10}}>
-                    {dataStudy.map(course => studyCardTemplate(course))}
+                    {dataStudy.map((course, index) => studyCardTemplate(course, index))}
                 </ScrollView>
             </View>
             <TouchableOpacity style={styles.resultFooter} onPress={show}>
@@ -157,20 +127,20 @@ const StudyResut = ({navigation}) => {
             <BottomSheet show={showBottomSheet} height={400} onOuterClick={hide}>
                 <View style={styles.bottomSheetContent}>
                     <ScrollView style={{maxHeight: '70%'}}>
-                        {dataStudy.map(course => studyValuesTemplate(course))}
+                        {dataStudy.map((course, index) => studyValuesTemplate(course, index))}
                     </ScrollView>
                     <View>
                         <View style={{flexDirection: 'row', marginTop: 40, paddingTop: 10, borderTopWidth: 1}}>
                             <View style={{...styles.classInfo}}>
                                 <Text>
-                                    Total SKS: {getSummation(dataStudy.map(course => course.credit))}
+                                    Total SKS: {getSummation(dataStudy.map(course => Number(course.Course.credit)))}
                                 </Text>
                             </View>
                             <View style={{
                                 justifyContent: 'flex-end',
                                 alignItems: 'flex-end', //Centered vertically
                                 flex:1}}>
-                                <Text>{getSummation(dataStudy.map(course => course.credit * course.value))}</Text>
+                                <Text>{getSummation(dataStudy.map(course => Number(course.Course.credit) * Number(course.value)))}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', marginTop: 10, paddingTop: 10, borderTopWidth: 1}}>

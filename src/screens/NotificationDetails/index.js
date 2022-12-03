@@ -28,15 +28,15 @@ const NotificationDetails = ({route, navigation}) => {
                 </Icon>
             </ImageBackground>
             <View style={styles.container}>
-                <Text>PENGUMUMAN {course.code} {course.name}</Text>
+                <Text>PENGUMUMAN {course.Course.code} {course.Course.name}</Text>
                 <Text>Pengumuman</Text>
-                <Text>Matakuliah: {course.code} {course.name}</Text>
-                <Text>Kelas: {course.class}</Text>
-                <Text>Dosen: {course.lecturer}</Text>
-                <Text>Pengumuman {course.description}</Text>
+                <Text>Matakuliah: {course.Course.code} {course.Course.name}</Text>
+                <Text>Kelas: {course.Course.Class.name}</Text>
+                <Text>Dosen: {course.Course.Lecturer.name}</Text>
+                <Text>Pengumuman: {course.title}</Text>
                 <Text>{course.description}</Text>
                 <Text>Silahkan cek di Akun Simaster anda</Text>
-                <Text>{course.updateTime}</Text>
+                <Text>{course.updateAt}</Text>
             </View>
         </View>
     )
